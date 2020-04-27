@@ -80,7 +80,7 @@ const CartProvider: React.FC = ({ children }) => {
   const decrement = useCallback(
     async id => {
       const productIndex = products.findIndex(product => product.id === id);
-      if (productIndex !== -1 && products[productIndex].quantity > 0) {
+      if (productIndex !== -1 && products[productIndex].quantity > 1) {
         products[productIndex].quantity -= 1;
         setProducts(products);
       }
