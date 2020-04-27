@@ -43,11 +43,14 @@ const CartProvider: React.FC = ({ children }) => {
 
   const addToCart = useCallback(
     async product => {
-      // TODO ADD A NEW ITEM TO THE CART
       const productIndex = products.findIndex(prod => prod.id === product.id);
+      const newProductArray = [...products];
       if (productIndex !== -1) {
-        products[productIndex].quantity += 1;
-        setProducts(products);
+        newProductArray[productIndex] = {
+          ...newProductArray[productIndex],
+          quantity: newProductArray[productIndex].quantity + 1,
+        };
+        setProducts(newProductArray);
       } else {
         const newProduct = { ...product, quantity: 1 };
         setProducts(oldState => [...oldState, newProduct]);
@@ -64,9 +67,15 @@ const CartProvider: React.FC = ({ children }) => {
   const increment = useCallback(
     async id => {
       const productIndex = products.findIndex(product => product.id === id);
+      const newProductArray = [...products];
+
       if (productIndex !== -1) {
-        products[productIndex].quantity += 1;
-        setProducts(products);
+        newProductArray[productIndex] = {
+          ...newProductArray[productIndex],
+          quantity: newProductArray[productIndex].quantity + 1,
+        };
+
+        setProducts(newProductArray);
       }
 
       await AsyncStorage.setItem(
@@ -80,10 +89,17 @@ const CartProvider: React.FC = ({ children }) => {
   const decrement = useCallback(
     async id => {
       const productIndex = products.findIndex(product => product.id === id);
+      const newProductArray = [...products];
+
       if (productIndex !== -1 && products[productIndex].quantity > 1) {
-        products[productIndex].quantity -= 1;
-        setProducts(products);
+        newProductArray[productIndex] = {
+          ...newProductArray[productIndex],
+          quantity: newProductArray[productIndex].quantity - 1,
+        };
+
+        setProducts(newProductArray);
       }
+
       await AsyncStorage.setItem(
         '@GoMarketplace:products',
         JSON.stringify(products),
